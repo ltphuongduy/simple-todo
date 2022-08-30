@@ -1,4 +1,4 @@
-import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
+import { APIGatewayTokenAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
 import 'source-map-support/register'
 
 import { verify, decode } from 'jsonwebtoken'
@@ -15,7 +15,7 @@ const logger = createLogger('auth')
 const jwksUrl = 'https://dev-7qeiwxuy.us.auth0.com/.well-known/jwks.json'
 
 export const handler = async (
-  event: CustomAuthorizerEvent
+  event: APIGatewayTokenAuthorizerEvent
 ): Promise<CustomAuthorizerResult> => {
   logger.info('Authorizing a user', event.authorizationToken)
   try {
@@ -69,7 +69,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
     if (!matchedKey || !matchedKey.length)
       throw new Error('Invalid key ID: '.concat(keyId))
     const PEM: string = buildPEMFromCert(matchedKey[0].x5c[0])
-    return verify(token, PEM, { algorithms: ['RS256'] }) as JwtPayload;
+    return verify(token, PEM, { algorithms: ['RS256'] }) as JwtPayload
   } 
   catch (ex) {
     logger.error('Error on authorization: ', ex)
