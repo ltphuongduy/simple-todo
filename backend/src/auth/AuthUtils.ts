@@ -1,6 +1,6 @@
 import { decode } from 'jsonwebtoken'
 
-import { JwtPayload } from './JwtPayload'
+import { JwtPayload } from './AuthModel'
 
 /**
  * Parse a JWT token and return a user id
@@ -10,4 +10,10 @@ import { JwtPayload } from './JwtPayload'
 export function parseUserId(jwtToken: string): string {
   const decodedJwt = decode(jwtToken) as JwtPayload
   return decodedJwt.sub
+}
+
+export const buildPEMFromCert = (certificate: string) => {
+  return `-----BEGIN CERTIFICATE-----\n${certificate
+    .match(/.{1,64}/g)
+    .join('\n')}\n-----END CERTIFICATE-----\n`
 }
