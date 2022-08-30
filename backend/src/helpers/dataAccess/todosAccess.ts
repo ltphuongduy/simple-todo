@@ -72,7 +72,7 @@ export class TodoAccess {
         }).promise()
     }
 
-    getUploadURL = async (userId: string, todoId: string): Promise<String> => {
+    getUploadURL = async (userId: string, todoId: string): Promise<string> => {
         const imageId = uuid.v4()
         const presignedUrl = await getS3PresignUrl(imageId)
         this.docClient.update({
