@@ -32,7 +32,7 @@ export const deleteTodo = async (userId: string, todoId: string): Promise<void> 
     await todoAccess.deleteTodo(userId, todoId)
 }
 
-export const generateUploadURL = async (userId: string, todoId: string): Promise<string> => {
-    const url = await todoAccess.getUploadURL(userId, todoId)
+export const genUploadURL = async (userId: string, todoId: string): Promise<string> => {
+    const url = await todoAccess.getURL(userId, todoId)
     return url
 }

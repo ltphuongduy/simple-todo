@@ -3,7 +3,7 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { createLogger } from '../../utils/logger'
 import { TodoItem } from '../../models/TodoItem'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-import { getS3PresignUrl } from '../../helpers/utils/attachmentUtils'
+import { genPresignUrl } from '../../helpers/utils/attachmentUtils'
 import * as uuid from 'uuid'
 
 const AWSXRay = require('aws-xray-sdk')
@@ -72,9 +72,9 @@ export class TodoAccess {
         }).promise()
     }
 
-    getUploadURL = async (userId: string, todoId: string): Promise<string> => {
+    getURL = async (userId: string, todoId: string): Promise<string> => {
         const imageId = uuid.v4()
-        const presignedUrl = await getS3PresignUrl(imageId)
+        const presignedUrl = await genPresignUrl(imageId)
         this.docClient.update({
             TableName: this.todosTable,
             Key: {
